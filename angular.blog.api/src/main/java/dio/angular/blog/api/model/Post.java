@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column
     private String img;
@@ -43,10 +43,10 @@ public class Post {
         this.headline = headline;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -4,6 +4,7 @@
 * [Sobre o Desafio](#sobre-o-desafio)
     * [Início Modesto](#início-modesto)
 * [Modelagem de dados](#modelagem-de-dados)
+* [Para Rodar o Projeto](#para-rodar-o-projeto)
 
 ## Sobre o Desafio
 O desafio é bem direto: criar uma API e publicacá-la (é sugerido o serviço [Railway](https://railway.app/)).
@@ -40,5 +41,18 @@ O banco de dados provavelmente vai contar com apenas duas tabelas, **Posts** e *
 </p>
 
 [Diagrama criado com mermaid, conforme sugestão do expert do desafio](https://mermaid.js.org/intro/)
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+## Para Rodar o Projeto
+* Garanta que você tem o JDK e o Maven instalados ([Para um guia mais descritivo, pelo menos usando Windows e o VSCode, veja esse repositório](https://github.com/Enyus/lab-dio-padrao-projeto-java#java-no-vscode));
+* No diretório principal (```angular.blog.api```), rode o comando ```mvn install``` para instalar todas as dependências do arquivo ```pom.xml```;
+    * É recomendável usar o comando ```mvn clean``` antes do comando de instalação;
+* Execute o comando para incializar a API ```mvn spring-boot:run``` e o aplicativo começará a rodar na porta 8080, rota ```http://localhost:8080/```;
+* Para entrar no console do banco de dados em memória H2, acesse a rota ```http://localhost:8080/h2-console/``` com os dados de ```application.yaml```:
+    * JDBC URL: *jdbc:h2:mem:angularblogapi*
+    * User Name: *enyus*
+    * Password: "" (deixar vazio)
+    * Clicar em ```Connect```.
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
