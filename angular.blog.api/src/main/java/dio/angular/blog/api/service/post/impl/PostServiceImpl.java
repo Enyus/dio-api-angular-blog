@@ -1,6 +1,8 @@
 package dio.angular.blog.api.service.post.impl;
 
 import java.util.List;
+import java.util.Optional;
+
 import static java.util.Optional.ofNullable;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +37,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post update(Integer id, Post entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public Post update(Integer id, Post postToUpdate) {
+        Post postFromDB = this.findById(id);
+
+        postFromDB.setHeadline(postToUpdate.getHeadline());
+        postFromDB.setImg(postToUpdate.getImg());
+        postFromDB.setPostDate(postToUpdate.getPostDate());
+        postFromDB.setTags(postToUpdate.getTags());
+        postFromDB.setText(postToUpdate.getText());
+        postFromDB.setTitle(postToUpdate.getTitle());
+
+        return this.postRepository.save(postFromDB);
     }
 
     @Override
     public void delete(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Post postFromDB = this.findById(id);
+        this.postRepository.delete(postFromDB);
     }
-
     
 }
