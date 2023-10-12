@@ -1,7 +1,6 @@
 package dio.angular.blog.api.service.post.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 

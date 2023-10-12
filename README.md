@@ -54,5 +54,6 @@ O banco de dados provavelmente vai contar com apenas duas tabelas, **Posts** e *
     * User Name: *enyus*
     * Password: "" (deixar vazio)
     * Clicar em ```Connect```.
+* Para rodar o ```swagger UI```, basta acessar a url ```http://localhost:8080/swagger-ui.html```.
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
