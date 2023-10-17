@@ -5,6 +5,8 @@
     * [Início Modesto](#início-modesto)
 * [Modelagem de dados](#modelagem-de-dados)
 * [Para Rodar o Projeto](#para-rodar-o-projeto)
+* [Deploy no Railway](#deploy-no-railway)
+    * [Links do Deploy](#links-do-deploy)
 
 ## Sobre o Desafio
 O desafio é bem direto: criar uma API e publicacá-la (é sugerido o serviço [Railway](https://railway.app/)).
@@ -55,5 +57,66 @@ O banco de dados provavelmente vai contar com apenas duas tabelas, **Posts** e *
     * Password: "" (deixar vazio)
     * Clicar em ```Connect```.
 * Para rodar o ```swagger UI```, basta acessar a url ```http://localhost:8080/swagger-ui.html```.
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+
+## Deploy no Railway
+Depois de suar muito para conseguir fazer o deploy no [Railway](https://railway.app/), finalmente consegui e tudo graças ao [vídeo](https://www.youtube.com/watch?v=tSyzZbIE3WU) e [post no medium](https://medium.com/@gustavoalberttodev/como-fazer-deploy-de-uma-api-maven-springboot-tomcat-no-railway-app-8ceecae97b6d) do [Gustavo Alberto Souza Costa](https://github.com/GA9BR1).
+
+Minha dificuldade veio principalmente do fato que a explicação do especialista da DIO não apenas era em outra IDE (tive sérios problemas em usar variáveis de ambiente em java com o VSCode, não consegui pra falar a verdade), mas também usava o **graddle** como gerenciador de pacotes.
+
+Alterações:
+* Criei uma branch específica para o deploy;
+
+* No arquivo da classe principal (```Application.java```), foi adicionada a propriedade ***PORT*** que descreveria a porta usada pelo Railway para subir a aplicação;
+```java
+// Importações
+public class Application {
+	public String PORT = System.getenv("PORT");
+
+	public static void main(String[] args) {
+    // (...)
+```
+
+* Como o Railway usa docker, o Gustavo indicou a criação de um arquivo chamado ***Dockerfile*** que indica ao Docker os passos a seguir para subir a API;
+```Dockerfile
+FROM openjdk:17 #indica que estou usando o java na versão 17
+ADD ./docker-spring-boot.jar docker-spring-boot.jar #nome final do arquivo de inicialização, definido no arquivo pom.xml
+ENTRYPOINT  ["java", "-jar", "docker-spring-boot.jar"] # aqui imagino que sejam os comandos para iniciar o aplicativo "buildado"
+```
+
+* Como mencionado no item anterior, o nome final do arquivo de build deve ser declarado no arquivo pom.xml, em ```<build>```:
+```xml
+<!-- pom.xml -->
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+    <finalName>docker-spring-boot</finalName>
+</build>
+<!-- pom.xml -->
+```
+
+* No arquivo de propriedades, que no meu caso eu uso o ```application.yaml```, foi adicionada a propriedade informando a porta:
+```yaml
+spring:
+    # (...)
+    server:
+        port: ${PORT:8080}
+```
+
+* Realizando o procedimento padrão quando o arquivo *pom.xml* é alterado, rodou-se os comando ```mvn clean``` e ```mvn install``` no terminal, o que gera a pasta **target**. Dentro dela, o arquivo final (anteriormente denominado) ```docker-spring-boot.jar``` foi criado. Este arquivo foi copiado para a raiz do projeto.
+
+* Com um push para o GitHub, que eu já havia sincronizado com o railway e configurado as variáveis de ambiente no site, o deploy subiu e funcionou!
+
+![Deploy online](./public/api-home-deploy.jpg)
+
+### Links do Deploy
+* Raiz: https://dio-api-angular-blog-production.up.railway.app
+* Swagger: https://dio-api-angular-blog-production.up.railway.app/swagger-ui.html
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
